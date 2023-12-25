@@ -31,7 +31,7 @@ const Input = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-5/6 mt-40">
+  <div className="flex justify-center items-center h-5/6 sm:h-5/6 mt-8 sm:mt-40">
       <form onSubmit={handleSubmit} className="w-full max-w-lg relative">
         <input
           type="text"
