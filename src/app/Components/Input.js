@@ -9,6 +9,7 @@ const Input = () => {
   const [inputValue, setInputValue] = useState('');
   const [generatedText, setGeneratedText] = useState('');
   const [generatedAudio, setGeneratedAudio] = useState('');
+  const [generatedImage, setGeneratedImage] = useState('');
   const [loading, setLoading] = useState(false);
   const apiKey = 'AIzaSyD40bVyLqwo9bew5aiehWdyKVa_4oBngII';
   const apiUrl = '/api/bard';
@@ -19,6 +20,8 @@ const Input = () => {
       const response = await axios.post(apiUrl, { prompt: inputValue, apiKey });
       const { text } = response.data;
       setGeneratedText(text);
+      setGeneratedImage("");
+      setGeneratedAudio("");
     } catch (error) {
       console.error("Error generating content:", error.message);
     } finally {
@@ -26,20 +29,35 @@ const Input = () => {
     }
   };
 
-  const handleSpeechToText = async () => {
+  const handleTextToSpeech = async () => {
     setLoading(true);
     const apiUrl = '/api/voice';
     try {
       const response = await axios.post(apiUrl, { prompt: inputValue });  
       setGeneratedAudio(response.data.voiceMessage);
-
+      setGeneratedImage("");
+      setGeneratedText("");
     } catch (error) {
       console.error("Error generating voice message:", error.message);
-      alert(error.message);
     } finally {
       setLoading(false);
     }
   };
+
+  const handleTextToImage = async () => {
+    setLoading(true);
+    const url =  '/api/image';
+    try{
+      const response = await axios.post(url, {prompt: inputValue});
+      setGeneratedImage(response.data.image);
+      setGeneratedAudio("");
+      setGeneratedText("");
+    }catch(error) {
+      console.error("Error generating image:", error.message);
+    }finally {
+      setLoading(false);
+    }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -83,16 +101,25 @@ const Input = () => {
             <PulseLoader color="#A854F7" />
           </div>
         )}
-        {generatedText && !loading && <Output generatedText={generatedText} />}
-        {generatedAudio && !loading && <Output generatedAudio={generatedAudio} />}
+        {generatedText && !loading && <Output generatedText={generatedText}  />}
+        {generatedAudio && !loading && <Output generatedAudio={generatedAudio}  />}
+        {generatedImage && !loading && <Output generatedImage={generatedImage} />}
       </div>
+      <div className="">
       <button
         className="mt-4 px-4 py-2 items-center justify-center rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white"
-        onClick={handleSpeechToText}
+        onClick={handleTextToSpeech}
       >
         Text to speech
       </button>
-      
+
+      <button
+        className="mt-4 ml-4 px-4 py-2 items-center justify-center rounded-full bg-gradient-to-r from-purple-500 to-blue-500 text-white"
+        onClick={handleTextToImage}
+      >
+        Text to Image
+      </button>
+      </div>
     </div>
   );
 };
