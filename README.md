@@ -67,6 +67,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Next.js](https://nextjs.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Gemini by Google](https://github.com/google-research/google-research)
+- [Voicerss](https://voicerss-text-to-speech.p.rapidapi.com)
+- [Unsplash](https://unsplash.com/developers)
 
 ---
 
